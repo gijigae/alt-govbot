@@ -65,6 +65,10 @@ const handleStream = (response: Response, onData: IOnData, onCompleted?: IOnComp
     throw new Error('Network response was not ok')
 
   const reader = response.body?.getReader()
+  if (!reader) {
+    onCompleted?.()
+    return
+  }
   const decoder = new TextDecoder('utf-8')
   let buffer = ''
   let bufferObj: Record<string, any>
